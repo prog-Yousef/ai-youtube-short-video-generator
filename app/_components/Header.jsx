@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React from 'react'
+import Authentication from './Authentication'
 
 function Header() {
   return (
@@ -9,7 +10,11 @@ function Header() {
         <Image src="/logo.svg" alt="logo" width={30} height={30} />
         <h2 className='text-2xl font-bold'>Video Geni</h2>
     </div>
+
+    <Authentication>
     <Button>Get started!</Button>
+
+    </Authentication>
     </div>
   )
 }
