@@ -1,7 +1,10 @@
 "use client"
-import React from 'react'
+import React, { useContext, useEffect, useState,createContext} from 'react'
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
+import { auth } from '@/configs/firebaseConfig'
+import { onAuthStateChanged } from 'firebase/auth'
+import { AuthContext } from './_context/AuthContext'
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme()
@@ -22,8 +25,29 @@ const ThemeToggle = () => {
 }
 
 function Provider({ children }) {
+
+  const [user, setUser] = useState();
+
+//for the user to be logged in
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    console.log(user);
+    // You can also set the user state or perform other actions here
+    setUser(user);
+    
+  });
+
+  // Cleanup subscription on unmount
+  return () => unsubscribe();
+}, []); // Empty dependency array ensures this runs only once on mount
+
   return (
     <div>
+      {/* fick fel här när jag hade så här  */}
+      {/* <AuthContext.Provider value={user}>
+ */} 
+   <AuthContext.Provider value={{ user }}>
+
       <NextThemesProvider
         attribute="class"
         defaultTheme="dark"
@@ -35,8 +59,14 @@ function Provider({ children }) {
         </div>
         {children}
       </NextThemesProvider>
+      </AuthContext.Provider>
     </div>
   )
+}
+
+export const useAuthContext = () => {
+ const context =  useContext(AuthContext);
+  return context;
 }
 
 export default Provider

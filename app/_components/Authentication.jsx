@@ -1,4 +1,4 @@
-"use client"
+"use client" // got error so add this line
 import React from 'react' // Removed unnecessary Children import
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/configs/firebaseConfig";
