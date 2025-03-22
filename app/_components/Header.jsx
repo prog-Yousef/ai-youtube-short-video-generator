@@ -3,6 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link'; // Add missing import
 import React from 'react';
 import Authentication from './Authentication';
 import { useAuthContext } from '../provider';
@@ -25,7 +26,9 @@ function Header() {
         </Authentication>
       ) : (
         <div className='flex items-center gap-4'>
-          <Button>Dashboard</Button>
+          <Link href='/dashboard'>
+            <Button>Dashboard</Button>
+          </Link>
           <Image 
             src={user?.photoURL} 
             alt="userImage" 

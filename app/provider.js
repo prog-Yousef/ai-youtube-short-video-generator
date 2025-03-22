@@ -5,10 +5,27 @@ import { Sun, Moon } from "lucide-react"
 import { auth } from '@/configs/firebaseConfig'
 import { onAuthStateChanged } from 'firebase/auth'
 import { AuthContext } from './_context/AuthContext'
+import { useMutation } from "convex/react";
+import { api } from '@/convex/_generated/api'
+
 
 const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme()
-  
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  // Ensure we only show theme toggle after mounting
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="h-5 w-5 rounded-md p-2"> {/* Empty placeholder */}
+        <div className="h-5 w-5" />
+      </div>
+    );
+  }
+
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -21,20 +38,30 @@ const ThemeToggle = () => {
         <Moon className="h-5 w-5 text-gray-700" />
       )}
     </button>
-  )
-}
+  );
+};
 
 function Provider({ children }) {
 
   const [user, setUser] = useState();
+  const CreateUser = useMutation(api.users.CreateNewUser);
 
 //for the user to be logged in
 useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
     console.log(user);
     // You can also set the user state or perform other actions here
     setUser(user);
     
+
+    const result = CreateUser({
+      
+      name: user?.displayName,
+      email: user?.email,
+      pictureURL: user?.photoURL
+    
+    });
+    console.log(result);
   });
 
   // Cleanup subscription on unmount
@@ -42,16 +69,18 @@ useEffect(() => {
 }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
+    
+      /* fick fel här när jag hade så här  */
+      /* <AuthContext.Provider value={user}>
+ */
     <div>
-      {/* fick fel här när jag hade så här  */}
-      {/* <AuthContext.Provider value={user}>
- */} 
+
    <AuthContext.Provider value={{ user }}>
 
       <NextThemesProvider
         attribute="class"
-        defaultTheme="dark"
-        enableSystem
+        defaultTheme="system"
+        enableSystem // automatically update the theme when system changes
         disableTransitionOnChange
       >
         <div className="fixed top-4 right-4">
@@ -60,6 +89,7 @@ useEffect(() => {
         {children}
       </NextThemesProvider>
       </AuthContext.Provider>
+     
     </div>
   )
 }
