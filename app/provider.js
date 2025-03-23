@@ -9,7 +9,7 @@ import { useMutation } from "convex/react";
 import { api } from '@/convex/_generated/api'
 
 
-const ThemeToggle = () => {
+/* /* const ThemeToggle = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -20,16 +20,18 @@ const ThemeToggle = () => {
 
   if (!mounted) {
     return (
-      <div className="h-5 w-5 rounded-md p-2"> {/* Empty placeholder */}
-        <div className="h-5 w-5" />
+      <div className="h-5 w-5 rounded-md p-2"> {/* Empty placeholder */
+/*         <div className="h-5 w-3" />
       </div>
     );
   }
+  */
 
+/* 
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      className="rounded-md p-2 w-5/6 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (
@@ -39,7 +41,7 @@ const ThemeToggle = () => {
       )}
     </button>
   );
-};
+}; */
 
 function Provider({ children }) {
 
@@ -84,7 +86,7 @@ useEffect(() => {
         disableTransitionOnChange
       >
         <div className="fixed top-4 right-4">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
         {children}
       </NextThemesProvider>
