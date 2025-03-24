@@ -52,9 +52,18 @@ function Provider({ children }) {
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     console.log(user);
-    // You can also set the user state or perform other actions here
+  
+
     setUser(user);
-    
+    if (user) {
+      const result = await CreateUser({
+        name: user?.displayName,
+        email: user?.email,
+        pictureURL: user?.photoURL
+      });
+      console.log(result);
+      setUser(result);
+    }
 
     const result = CreateUser({
       
