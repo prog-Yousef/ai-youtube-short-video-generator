@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Gem, GemIcon, HomeIcon, LucideFileVideo, Search, WalletCards } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useAuthContext } from '@/app/provider'
 
 const MenuItems = [
     {
@@ -43,6 +44,7 @@ const MenuItems = [
 function AppSidebar() {
     //usePathname() is a hook that returns the current pathname of the page where it is called.
 const path=usePathname();
+const {user} = useAuthContext();
 console.log(path);
 
   return (
@@ -86,7 +88,7 @@ console.log(path);
                 <Gem className='text-gray-400' />
                 <h2 className='text-gray-400'>
                     
-                    <span>5 credits left</span>
+                    <span>{user?.credits} credits left</span>
                 </h2>
             </div>
             <Button className='w-full mt-3'>Buy More Credits</Button>
