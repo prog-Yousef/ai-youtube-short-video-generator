@@ -62,7 +62,9 @@ console.log(path);
             <SidebarGroup>
                 <SidebarGroupContent>
                     <div className='mx-3 mt-8   '>
+                        <Link href = {'/create-new-video'}>
                         <Button className='w-full'>+ Create New Video</Button>
+                        </Link>
                     </div>
 
                     <SidebarMenu>

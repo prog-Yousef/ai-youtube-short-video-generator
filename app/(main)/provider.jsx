@@ -28,7 +28,9 @@ function DashboardProvider({children}) {
         <AppSidebar />
         <div className='w-full'>
             <AppHeader />
-    {children}
+    <div className='p-10'>
+      {children}
+    </div>
     </div>
     </SidebarProvider>
   )
