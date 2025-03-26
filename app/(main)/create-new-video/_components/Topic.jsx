@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { Textarea } from "@/components/ui/textarea"
 import onHandleInputChange from '../page'
-import { SparkleIcon } from 'lucide-react'
+import { SparkleIcon,Loader2Icon} from 'lucide-react'
+import axios from 'axios'
 
 const suggestions = [
   "History Story",
@@ -29,9 +30,24 @@ const suggestions = [
 ]
 
 function Topic({onHandleInputChange}) {
-  const [selectTopic, setSelectTopic] = useState()
-const GenerateScript=()=>{
-  console.log('clicked');
+  const [selectedTopic, setSelectedTopic] = useState()
+  const [scripts, setScripts] = useState();
+  const [loading, setLoading] = useState(false);
+const GenerateScript= async()=>{
+  setLoading(true);
+  try {
+  const result = await axios.post('/api/generate-script', {
+    topic: selectedTopic
+  });
+  console.log(result.data);
+  setScripts(result.data?.scripts);
+}
+
+catch (error) {
+  console.error(error);
+}
+  setLoading(false);
+ 
 }
   return (
     <div >
@@ -50,7 +66,7 @@ const GenerateScript=()=>{
   <TabsContent value="suggestions">
     <div >
     {suggestions.map((suggestion, index) => (
-      <Button variant="outline" key={index} className={`m-1 ${selectTopic === suggestion&& "bg-secondary"}`} onClick={() => {setSelectTopic(suggestion)
+      <Button variant="outline" key={index} className={`m-1 ${selectedTopic === suggestion&& "bg-secondary"}`} onClick={() => {setSelectedTopic(suggestion)
         onHandleInputChange('topic', suggestion)
       }}>{suggestion}</Button>
     ))}
@@ -69,7 +85,9 @@ const GenerateScript=()=>{
 </Tabs>
 
         </div>
-        <Button className='mt-3 'size="sm" onClick={GenerateScript}><SparkleIcon/> Generate Script</Button>
+        <Button className='mt-3 'size="sm"
+         onClick={GenerateScript}>
+          {loading?<Loader2Icon className="animate-spin"/>:<SparkleIcon/> }Generate Script</Button>
 
     </div>
   )
