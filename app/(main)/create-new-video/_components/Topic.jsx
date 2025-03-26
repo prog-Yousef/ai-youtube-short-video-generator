@@ -83,6 +83,15 @@ catch (error) {
   
   </TabsContent>
 </Tabs>
+{/*  only when script is generated then show  */}
+{scripts?.length > 0 && 
+  <div className='grid grid-cols-2 gap-5 '>
+    {scripts?.map((item, index) => (
+      <div key={index} className='p-3 border rounded-lg' >
+        <h2 className='line-clamp-3 text-sm  text-gray-300'>{item.content}</h2>
+      </div>
+    ))}
+  </div>}
 
         </div>
         <Button className='mt-3 'size="sm"
