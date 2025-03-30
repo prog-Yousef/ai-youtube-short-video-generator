@@ -1,27 +1,24 @@
 import { generateScript } from "@/configs/AiModel";
 import { NextResponse } from "next/server";
 
-
-const SCRIPT_PROMPT = `write a two different script for 30 seconds video on topic:{topic},
-
-do not add scene decription
-
-do not add anything in braces. Just return the plain story in text
-*give me response in JSON format and follow the schema
+const SCRIPT_PROMPT = `Write two unique scripts for a 30 to 60 second 
+video on the topic: {topic}. Each script should be engaging, 
+concise, and impactful. Do not include scene descriptions, formatting, or anything in braces—just return the plain text story.
+Respond strictly in JSON format using the following schema:
 -{
 scripts:[
 {
-content:"
+content:''
 },
 ],
 }`
-
 export async function POST(req) {
-    const {topic} = await req.json();
-const PROMT = SCRIPT_PROMPT.replace("{topic}", topic);
+    const { topic } = await req.json();
 
-    const result = await generateScript.sendMessage(PROMT);
-const resp = result?.response?.text();
+    const PROMPT = SCRIPT_PROMPT.replace('{topic}', topic);
+    const result = await generateScript.sendMessage(PROMPT);
+    const resp = result?.response?.text();
 
-return NextResponse.json(JSON.parse(resp));
+    return NextResponse.json(JSON.parse(resp));
+
 }
