@@ -53,7 +53,7 @@ function VideoList({ explore = false }) {
                 GetUserVideoList();
             }
             console.log('Still Pending...')
-
+//every 5seconds
         }, 5000)
     }
 
@@ -74,9 +74,10 @@ function VideoList({ explore = false }) {
                         <Link key={index} href={'/play-video/' + video?._id}>
                             <div className='relative'>
                                 {video?.status == 'completed' ? <Image src={video?.images ? video?.images[0] : '/logo.svg'}
-                                    alt={video?.title}
+                                    alt={video?.title || 'video'}
                                     width={500}
                                     height={500}
+                                    priority
                                     className='w-full object-cover rounded-xl
                                 aspect-[2/3]'
                                 /> :
