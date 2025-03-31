@@ -29,10 +29,10 @@ function Topic({ onHandleInputChange }) {
 
     const GenerateScript = async () => {
 
-        if (user?.credits <= 0) {
+     /*    if (user?.credits <= 0) {
             toast('Please add more credits!')
             return;
-        }
+        } */
         setLoading(true);
         setSelectedScriptIndex(null);
         console.log(selectedTopic)

@@ -9,7 +9,7 @@ export default defineSchema({
         credits: v.number()
     }),
     videoData: defineTable({
-        title: v.string(),
+        title: v.optional(v.string()),
         topic: v.string(),
         script: v.string(),
         videoStyle: v.string(),

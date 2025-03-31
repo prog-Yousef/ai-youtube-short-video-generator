@@ -3,7 +3,8 @@ import { mutation, query } from "./_generated/server";
 
 export const CreateVideoData = mutation({
     args: {
-        title: v.string(),
+        title: v.optional(v.string()),
+
         topic: v.string(),
         script: v.string(),
         videoStyle: v.string(),
@@ -25,7 +26,7 @@ export const CreateVideoData = mutation({
             createdBy: args.createdBy,
             status: 'pending'
         })
-
+//decrease credits
         await ctx.db.patch(args.uid, {
             credits: (args?.credits) - 1
         })
@@ -43,6 +44,7 @@ export const UpdateVideoRecord = mutation({
 
     },
     handler: async (ctx, args) => {
+        //patch update
         const result = await ctx.db.patch(args.recordId, {
             audioUrl: args.audioUrl,
             captionJson: args.captionJson,
@@ -72,13 +74,14 @@ export const UpdateVideoDownloadUrl = mutation({
 
 export const GetUserVideos = query({
     args: {
-        uid: v.id('users')
+        uid: v.optional(v.id("users")),
     },
     handler: async (ctx, args) => {
         const result = await ctx.db.query('videoData')
             .filter(q => q.eq(q.field('uid'), args.uid))
             .order('desc')
             .take(10)
+            /* .collect(); */
 
 
         return result;

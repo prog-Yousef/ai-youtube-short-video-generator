@@ -63,7 +63,7 @@ export const GenerateVideoData = inngest.createFunction(
             "generateCaptions",
             async () => {
                 const deepgram = createClient(process.env.NEXT_PUBLIC_DEEPGRAM_API_KEY);
-                // STEP 2: Call the transcribeUrl method with the audio payload and options
+                // STEP 2: Call the transcribeUrl method with the audio payload and options from doc
                 const { result, error } = await deepgram.listen.prerecorded.transcribeUrl(
                     {
                         url: GenerateAudioFile,
