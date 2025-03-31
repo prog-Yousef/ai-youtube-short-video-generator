@@ -12,10 +12,9 @@ import React, { useEffect, useState } from 'react'
 function VideoList({ explore = false }) {
     const [videoList, setVideoList] = useState([]);
     const convex = useConvex();
-    const { user, setUser } = useAuthContext();
+    const { user } = useAuthContext();
     const [loading, setLoading] = useState(false);
 
-    '77only call when user is logged in'
     useEffect(() => {
         user && GetUserVideoList();
     }, [user])
@@ -29,7 +28,6 @@ function VideoList({ explore = false }) {
         }
         else {
             result = await convex.query(api.videoData.GetUserVideos, {
-                //convex user id
                 uid: user?._id
             });
         }
@@ -53,7 +51,7 @@ function VideoList({ explore = false }) {
                 GetUserVideoList();
             }
             console.log('Still Pending...')
-//every 5seconds
+
         }, 5000)
     }
 
@@ -74,10 +72,9 @@ function VideoList({ explore = false }) {
                         <Link key={index} href={'/play-video/' + video?._id}>
                             <div className='relative'>
                                 {video?.status == 'completed' ? <Image src={video?.images ? video?.images[0] : '/logo.svg'}
-                                    alt={video?.title || 'video'}
+                                    alt={video?.title}
                                     width={500}
                                     height={500}
-                                    priority
                                     className='w-full object-cover rounded-xl
                                 aspect-[2/3]'
                                 /> :

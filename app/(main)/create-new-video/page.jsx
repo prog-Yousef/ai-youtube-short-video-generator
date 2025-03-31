@@ -35,15 +35,13 @@ function CreateNewVideo() {
         if (user?.credits <= 0) {
             toast('Please add more credits!')
             return;
-        } 
+        }
 
         if (!formData?.topic || !formData?.script || !formData.videoStyle || !formData?.caption || !formData?.voice) {
             console.log("ERROR", "Enter All Field");
             toast('Please fill out all details')
             return;
         }
-
-        
         setLoading(true)
         // Save Video Data First
         const resp = await CreateInitialVideoRecord({
