@@ -87,14 +87,14 @@ const videoData = {
 }
 
 export const RemotionRoot = () => {
-    // const [defaultData, setDefaultData] = useState(data);
-    // const { videoData } = getInputProps(); // Get dynamic input props
+   const [defaultData, setDefaultData] = useState(data);
+   const { videoData } = getInputProps(); // Get dynamic input props
 
-    // useEffect(() => {
-    //     if (videoData?.captionJson) {
-    //         setDefaultData(videoData);
-    //     }
-    // }, [videoData]);
+/*  useEffect(() => {
+       if (videoData?.captionJson) {
+            setDefaultData(videoData);
+       }
+    }, [videoData]); */
 
     return (
         <>
