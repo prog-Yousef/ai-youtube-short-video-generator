@@ -6,6 +6,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { api } from "@/convex/_generated/api";
 // import { getServices, renderMediaOnCloudrun } from '@remotion/cloudrun/client';
 import { getFunctions, renderMediaOnLambda, getRenderProgress } from '@remotion/lambda-client';
+import { getServices, renderMediaOnCloudrun } from '@remotion/cloudrun/client';
 
 
 const ImagePromptScript = `Generate detailed image prompts in {style} style for 
@@ -135,44 +136,41 @@ export const GenerateVideoData = inngest.createFunction(
         /**
          * using Google Cloud (SLOW RENDERING)
          */
-        // const RenderVideo = await step.run(
-        //     "renderVideo",
-        //     async () => {
-        //         //Redner Video
-        //         const services = await getServices({
-        //             region: 'us-east1',
-        //             compatibleOnly: true,
-        //         });
+       const RenderVideo = await step.run(
+        "renderVideo",
+        async () => {
+                //Redner Video
+              const services = await getServices({
+                  region: 'us-east1',
+              });
 
-        //         const serviceName = services[0].serviceName;
-        //         const result = await renderMediaOnCloudrun({
-        //             serviceName,
-        //             region: 'us-east1',
-        //             serveUrl: process.env.GCP_SERVE_URL,
-        //             composition: 'youtubeShort',
-        //             inputProps: {
-        //                 videoData: {
-        //                     audioUrl: GenerateAudioFile,
-        //                     captionJson: GenerateCaptions,
-        //                     images: GenerateImages
-        //                 }
-        //             },
-        //             codec: 'h264',
+             const serviceName = services[0].serviceName;
+         const result = await renderMediaOnCloudrun({
+                   serviceName,
+                  region: 'us-east1',
+                serveUrl: process.env.GCP_SERVE_URL,
+                composition: 'youtubeShort',
+                 inputProps: {
+                     videoData: {
+                         audioUrl: GenerateAudioFile,
+                         captionJson: GenerateCaptions,
+                       }
+                },
+                  codec: 'h264',
 
-        //         });
+             });
 
-        //         if (result.type === 'success') {
-        //             console.log(result.bucketName);
-        //             console.log(result.renderId);
-        //         }
-        //         return result?.publicUrl;
-        //     }
-        // )
+            if (result.type === 'success') {
+             console.log(result.bucketName);
+                console.log(result.renderId);
+             return result?.publicUrl;
+         }
+   )
 
         /**
          * Using AWS Lamda (FAST RENDERING)
          */
-        const RenderVideoUsingAWSLamda = await step.run(
+       /*  const RenderVideoUsingAWSLamda = await step.run(
             "RenderVideoUsingAWSLamda",
             async () => {
                 //Redner Video
@@ -209,7 +207,7 @@ export const GenerateVideoData = inngest.createFunction(
 
             }
         )
-
+ */
         const UpdateDownloadUrl = await step.run(
             'UpdateDownloadUrl',
             async () => {
@@ -222,7 +220,7 @@ export const GenerateVideoData = inngest.createFunction(
             }
         )
 
-        return RenderVideoUsingAWSLamda;
+        return RenderVideo;
     }
 )
 
